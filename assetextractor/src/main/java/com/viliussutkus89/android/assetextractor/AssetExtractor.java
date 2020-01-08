@@ -61,6 +61,11 @@ public class AssetExtractor {
             return null;
         }
 
+        if (!outputDir.exists() && !outputDir.mkdirs()) {
+            Log.e(TAG, "Failed to create output folder: " + outputDir.getAbsolutePath());
+            return null;
+        }
+
         String nodeName = new File(source).getName();
         File output = new File(outputDir, nodeName);
 
@@ -84,11 +89,7 @@ public class AssetExtractor {
             }
         } else {
             // Processing a folder
-            if (!output.exists() && !output.mkdirs()) {
-                Log.e(TAG, "Failed to create output folder: " + output.getAbsolutePath());
-                return null;
-            }
-            for (String asset : assets) {
+            for (String asset: assets) {
                 if (null == extract(assetManager, output, asset)) {
                     return null;
                 }
