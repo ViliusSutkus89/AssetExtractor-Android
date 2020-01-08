@@ -47,18 +47,18 @@ public class AssetExtractor {
         return this;
     }
 
-    public Boolean extract(@NonNull AssetManager assetManager, @NonNull File outputDir, @NonNull String source) {
+    public File extract(@NonNull AssetManager assetManager, @NonNull File outputDir, @NonNull String source) {
         String[] assets;
         try {
             assets = assetManager.list(source);
         } catch (IOException e) {
             Log.e(TAG, "Failed to list asset: " + source);
-            return false;
+            return null;
         }
 
         if (null == assets) {
             Log.e(TAG, "Null returned instead of assets: " + source);
-            return false;
+            return null;
         }
 
         String nodeName = new File(source).getName();
@@ -67,7 +67,7 @@ public class AssetExtractor {
         // Processing a file
         if (0 == assets.length) {
             if (!this.m_overwrite && output.exists()) {
-                return true;
+                return output;
             }
             try {
                 BufferedReader br = new BufferedReader(new InputStreamReader(assetManager.open(source)));
@@ -80,20 +80,20 @@ public class AssetExtractor {
                 br.close();
             } catch (IOException e) {
                 Log.e(TAG, "Failed to extract asset: " + source);
-                return false;
+                return null;
             }
         } else {
             // Processing a folder
             if (!output.exists() && !output.mkdirs()) {
                 Log.e(TAG, "Failed to create output folder: " + output.getAbsolutePath());
-                return false;
+                return null;
             }
             for (String asset : assets) {
-                if (!extract(assetManager, output, asset)) {
-                    return false;
+                if (null == extract(assetManager, output, asset)) {
+                    return null;
                 }
             }
         }
-        return true;
+        return output;
     }
 }
