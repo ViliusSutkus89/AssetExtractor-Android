@@ -25,12 +25,11 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class AssetExtractor {
     private static final String TAG = "AssetExtractor";
@@ -75,14 +74,22 @@ public class AssetExtractor {
                 return output;
             }
             try {
-                BufferedReader br = new BufferedReader(new InputStreamReader(assetManager.open(source)));
-                BufferedWriter bw = new BufferedWriter(new FileWriter(output));
-                String line;
-                while (null != (line = br.readLine())) {
-                    bw.write(line);
+                InputStream i = assetManager.open(source);
+                try {
+                    OutputStream o = new FileOutputStream(output);
+                    try {
+                        int bufSize = 1024 * 512;
+                        byte[] buffer = new byte[bufSize];
+                        int haveRead;
+                        while (-1 != (haveRead = i.read(buffer))) {
+                            o.write(buffer, 0, haveRead);
+                        }
+                    } finally {
+                        o.close();
+                    }
+                } finally {
+                    i.close();
                 }
-                bw.close();
-                br.close();
             } catch (IOException e) {
                 Log.e(TAG, "Failed to extract asset: " + source);
                 return null;
