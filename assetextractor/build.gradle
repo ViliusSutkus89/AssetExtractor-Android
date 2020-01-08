@@ -32,6 +32,8 @@ android {
 
         versionCode 1
         versionName project.version
+
+        archivesBaseName = rootProject.name
     }
 }
 

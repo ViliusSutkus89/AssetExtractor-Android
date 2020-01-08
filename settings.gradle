@@ -1,2 +1,2 @@
-rootProject.name='AssetExtractor'
+rootProject.name='assetextractor-android'
 include ':assetextractor'
