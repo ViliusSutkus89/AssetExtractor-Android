@@ -35,10 +35,16 @@ import java.io.InputStreamReader;
 public class AssetExtractor {
     private static final String TAG = "AssetExtractor";
 
-    private boolean m_overwrite;
+    private boolean m_overwrite = false;
 
-    public AssetExtractor(boolean overwrite) {
-        m_overwrite = overwrite;
+    public AssetExtractor setOverwrite() {
+        this.m_overwrite = true;
+        return this;
+    }
+
+    public AssetExtractor setNoOverwrite() {
+        this.m_overwrite = false;
+        return this;
     }
 
     public Boolean extract(@NonNull AssetManager assetManager, @NonNull File outputDir, @NonNull String source) {
