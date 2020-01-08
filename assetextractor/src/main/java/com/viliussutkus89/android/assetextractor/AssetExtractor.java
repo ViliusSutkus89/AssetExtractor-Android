@@ -34,7 +34,12 @@ import java.io.OutputStream;
 public class AssetExtractor {
     private static final String TAG = "AssetExtractor";
 
+    private AssetManager m_assetManager;
     private boolean m_overwrite = false;
+
+    public AssetExtractor(@NonNull AssetManager assetManager) {
+        this.m_assetManager = assetManager;
+    }
 
     public AssetExtractor setOverwrite() {
         this.m_overwrite = true;
@@ -46,10 +51,10 @@ public class AssetExtractor {
         return this;
     }
 
-    public File extract(@NonNull AssetManager assetManager, @NonNull File outputDir, @NonNull String source) {
+    public File extract(@NonNull File outputDir, @NonNull String source) {
         String[] assets;
         try {
-            assets = assetManager.list(source);
+            assets = this.m_assetManager.list(source);
         } catch (IOException e) {
             Log.e(TAG, "Failed to list asset: " + source);
             return null;
@@ -74,7 +79,7 @@ public class AssetExtractor {
                 return output;
             }
             try {
-                InputStream i = assetManager.open(source);
+                InputStream i = this.m_assetManager.open(source);
                 try {
                     OutputStream o = new FileOutputStream(output);
                     try {
@@ -97,7 +102,7 @@ public class AssetExtractor {
         } else {
             // Processing a folder
             for (String asset: assets) {
-                if (null == extract(assetManager, output, asset)) {
+                if (null == extract(output, asset)) {
                     return null;
                 }
             }
