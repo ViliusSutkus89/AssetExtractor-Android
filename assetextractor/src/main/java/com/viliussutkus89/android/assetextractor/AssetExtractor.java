@@ -32,7 +32,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-class AssetExtractor {
+public class AssetExtractor {
     private static final String TAG = "AssetExtractor";
 
     private boolean m_overwrite;
