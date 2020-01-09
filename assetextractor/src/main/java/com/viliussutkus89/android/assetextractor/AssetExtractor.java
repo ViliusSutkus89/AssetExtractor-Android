@@ -102,7 +102,7 @@ public class AssetExtractor {
         } else {
             // Processing a folder
             for (String asset: assets) {
-                if (null == extract(output, asset)) {
+                if (null == extract(output, source + "/" + asset)) {
                     return null;
                 }
             }
