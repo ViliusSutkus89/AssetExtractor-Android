@@ -1,7 +1,7 @@
 /*
  * AssetExtractor.java
  *
- * Copyright (C) 2019,2020 Vilius Sutkus'89 <ViliusSutkus89@gmail.com>
+ * Copyright (C) 2019, 2020 Vilius Sutkus'89 <ViliusSutkus89@gmail.com>
  *
  * Implementation inspired by https://gist.github.com/tylerchesley/6198074
  *
@@ -34,7 +34,7 @@ import java.io.OutputStream;
 public class AssetExtractor {
     private static final String TAG = "AssetExtractor";
 
-    private AssetManager m_assetManager;
+    private final AssetManager m_assetManager;
     private boolean m_overwrite = false;
 
     public AssetExtractor(@NonNull AssetManager assetManager) {
