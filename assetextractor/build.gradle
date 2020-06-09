@@ -34,6 +34,8 @@ android {
         versionName project.version
 
         archivesBaseName = rootProject.name
+
+        consumerProguardFiles 'proguard-rules.pro'
     }
 }
 
