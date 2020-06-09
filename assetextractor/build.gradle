@@ -39,8 +39,13 @@ android {
     }
 }
 
+configurations {
+    javadocDependenciesToObtainClasspath
+}
+
 dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
+    javadocDependenciesToObtainClasspath 'androidx.annotation:annotation:1.1.0'
 }
 
 task sourceJar(type: Jar) {
@@ -53,6 +58,7 @@ task javadoc(type: Javadoc) {
     options.encoding = 'UTF-8'
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.javadocDependenciesToObtainClasspath
     title = "${rootProject.name} ${project.version} API"
 }
 
