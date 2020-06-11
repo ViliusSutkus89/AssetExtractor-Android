@@ -32,81 +32,81 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class AssetExtractor {
-    private static final String TAG = "AssetExtractor";
+  private static final String TAG = "AssetExtractor";
 
-    private final AssetManager m_assetManager;
-    private boolean m_overwrite = false;
+  private final AssetManager m_assetManager;
+  private boolean m_overwrite = false;
 
-    public AssetExtractor(@NonNull AssetManager assetManager) {
-        this.m_assetManager = assetManager;
+  public AssetExtractor(@NonNull AssetManager assetManager) {
+    this.m_assetManager = assetManager;
+  }
+
+  public AssetExtractor setOverwrite() {
+    this.m_overwrite = true;
+    return this;
+  }
+
+  public AssetExtractor setNoOverwrite() {
+    this.m_overwrite = false;
+    return this;
+  }
+
+  public File extract(@NonNull File outputDir, @NonNull String source) {
+    String[] assets;
+    try {
+      assets = this.m_assetManager.list(source);
+    } catch (IOException e) {
+      Log.e(TAG, "Failed to list asset: " + source);
+      return null;
     }
 
-    public AssetExtractor setOverwrite() {
-        this.m_overwrite = true;
-        return this;
+    if (null == assets) {
+      Log.e(TAG, "Null returned instead of assets: " + source);
+      return null;
     }
 
-    public AssetExtractor setNoOverwrite() {
-        this.m_overwrite = false;
-        return this;
+    if (!outputDir.exists() && !outputDir.mkdirs()) {
+      Log.e(TAG, "Failed to create output folder: " + outputDir.getAbsolutePath());
+      return null;
     }
 
-    public File extract(@NonNull File outputDir, @NonNull String source) {
-        String[] assets;
-        try {
-            assets = this.m_assetManager.list(source);
-        } catch (IOException e) {
-            Log.e(TAG, "Failed to list asset: " + source);
-            return null;
-        }
+    String nodeName = new File(source).getName();
+    File output = new File(outputDir, nodeName);
 
-        if (null == assets) {
-            Log.e(TAG, "Null returned instead of assets: " + source);
-            return null;
-        }
-
-        if (!outputDir.exists() && !outputDir.mkdirs()) {
-            Log.e(TAG, "Failed to create output folder: " + outputDir.getAbsolutePath());
-            return null;
-        }
-
-        String nodeName = new File(source).getName();
-        File output = new File(outputDir, nodeName);
-
-        // Processing a file
-        if (0 == assets.length) {
-            if (!this.m_overwrite && output.exists()) {
-                return output;
-            }
-            try {
-                InputStream i = this.m_assetManager.open(source);
-                try {
-                    OutputStream o = new FileOutputStream(output);
-                    try {
-                        int bufSize = 1024 * 512;
-                        byte[] buffer = new byte[bufSize];
-                        int haveRead;
-                        while (-1 != (haveRead = i.read(buffer))) {
-                            o.write(buffer, 0, haveRead);
-                        }
-                    } finally {
-                        o.close();
-                    }
-                } finally {
-                    i.close();
-                }
-            } catch (IOException e) {
-                Log.e(TAG, "Failed to extract asset: " + source);
-                return null;
-            }
-        } else {
-            // Processing a folder
-            for (String asset: assets) {
-                if (null == extract(output, source + "/" + asset)) {
-                    return null;
-                }
-            }
-        }
+    // Processing a file
+    if (0 == assets.length) {
+      if (!this.m_overwrite && output.exists()) {
         return output;
+      }
+      try {
+        InputStream i = this.m_assetManager.open(source);
+        try {
+          OutputStream o = new FileOutputStream(output);
+          try {
+            int bufSize = 1024 * 512;
+            byte[] buffer = new byte[bufSize];
+            int haveRead;
+            while (-1 != (haveRead = i.read(buffer))) {
+              o.write(buffer, 0, haveRead);
+            }
+          } finally {
+            o.close();
+          }
+        } finally {
+          i.close();
+        }
+      } catch (IOException e) {
+        Log.e(TAG, "Failed to extract asset: " + source);
+        return null;
+      }
+    } else {
+      // Processing a folder
+      for (String asset : assets) {
+        if (null == extract(output, source + "/" + asset)) {
+          return null;
+        }
+      }
     }
+    return output;
+  }
 }
