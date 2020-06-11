@@ -4,6 +4,9 @@ on:
   release:
     types: published
 
+env:
+  ANDROID_SDK_TOOLS:  "6514223"
+
 jobs:
   publish:
     runs-on: ubuntu-20.04
@@ -13,6 +16,8 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: 1.8
+
+      - run: .github/installAndroidTools.sh
 
       - name: Download assets from this Release
         uses: ViliusSutkus89/release-asset-downloader@v1.0.3
