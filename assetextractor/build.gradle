@@ -36,6 +36,8 @@ android {
         archivesBaseName = rootProject.name
 
         consumerProguardFiles 'proguard-rules.pro'
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 }
 
@@ -46,6 +48,9 @@ configurations {
 dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
     javadocDependenciesToObtainClasspath 'androidx.annotation:annotation:1.1.0'
+
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
 }
 
 task sourceJar(type: Jar) {
@@ -142,5 +147,17 @@ publishing{
                 }
             }
         }
+    }
+}
+
+task createEmptyFolderInTestAssetsForSpecificUnitTest {
+    doLast {
+        mkdir "$projectDir/src/androidTest/assets/emptyDirectory"
+    }
+}
+
+tasks.whenTaskAdded {
+    if (it.name == 'generateDebugAndroidTestAssets') {
+        it.dependsOn createEmptyFolderInTestAssetsForSpecificUnitTest
     }
 }
