@@ -1,9 +1,6 @@
 name: Build
 on: push
 
-env:
-  ANDROID_SDK_TOOLS:  "6514223"
-
 jobs:
   build:
     runs-on: ubuntu-20.04
