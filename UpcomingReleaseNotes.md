@@ -1,0 +1,1 @@
+Library distributed through MavenCentral (issue #2)
