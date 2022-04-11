@@ -36,7 +36,7 @@ jobs:
 
       - run: ./gradlew publishToMavenLocal
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: maven-local
           path: ~/.m2
