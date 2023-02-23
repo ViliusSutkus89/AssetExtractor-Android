@@ -46,8 +46,8 @@ configurations {
 }
 
 dependencies {
-    implementation 'androidx.annotation:annotation:1.2.0'
-    javadocDependenciesToObtainClasspath 'androidx.annotation:annotation:1.2.0'
+    implementation 'androidx.annotation:annotation:1.6.0'
+    javadocDependenciesToObtainClasspath 'androidx.annotation:annotation:1.6.0'
 
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
