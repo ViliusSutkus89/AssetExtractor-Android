@@ -24,13 +24,13 @@ jobs:
     environment: BuildUnprivileged
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-java@v2
+      - uses: actions/setup-java@v4
         with:
-          distribution: zulu
-          java-version: 8
-      - uses: android-actions/setup-android@v2
+          distribution: 'temurin'
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
 
       - run: ./gradlew assembleRelease
 
@@ -65,13 +65,13 @@ jobs:
           - api-level: 30
             target: default
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-java@v2
+      - uses: actions/setup-java@v4
         with:
-          distribution: zulu
-          java-version: 8
-      - uses: android-actions/setup-android@v2
+          distribution: 'temurin'
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
 
       - uses: actions/download-artifact@v2
         with:
