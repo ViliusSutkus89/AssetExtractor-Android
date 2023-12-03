@@ -69,9 +69,9 @@ $aarStaging->update("$projectName/build.gradle", sub {
     return $_;
 });
 
-$aarStaging->update("$projectName/src/main/AndroidManifest.xml", sub {
+$aarStaging->update("$projectName/assetextractor/build.gradle", sub {
     $_ = shift;
-    s/(package=["'].+)(["'])/${1}.${suffix}${2}/;
+    s/(namespace = ["'].+)(["'])/${1}.${suffix}${2}/;
     return $_;
 });
 
