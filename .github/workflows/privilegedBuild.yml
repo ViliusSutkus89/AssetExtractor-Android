@@ -25,7 +25,7 @@ jobs:
     environment: BuildWithDeployToSonatype
     outputs:
       STAGING_REPO_URL: ${{ steps.sonatype.outputs.stagingRepoUrl }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
@@ -69,7 +69,7 @@ jobs:
     environment: Staging
     needs: build
     # Only macos VMs are available with exposed CPU extensions to run hardware accelerated emulator
-    runs-on: macos-10.15
+    runs-on: macos-13
     strategy:
       fail-fast: false
       matrix:
@@ -114,7 +114,7 @@ jobs:
     environment: ReleaseSonatype
     # Needs to depend on build too, to obtain STAGING_REPO_URL
     needs: [build, staging]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     outputs:
       ARTIFACTS: ${{ steps.promote.outputs.artifacts }}
     steps:
@@ -131,7 +131,7 @@ jobs:
     permissions:
       # Needed to make a version increment commit, maybe GitHub release too.
       contents: write
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
         with:
