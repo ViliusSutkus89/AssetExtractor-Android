@@ -50,7 +50,7 @@ my $aarStaging = fileUpdater->new({
     rootDirectory   => $rootDirectory,
     outputDirectory => $outputDirectory
 });
-$aarStaging->update([ 'gradle', 'gradlew', 'gradle.properties', "$projectName/src/androidTest/assets" ]);
+$aarStaging->update([ 'gradle', 'gradlew', 'build.gradle', 'gradle.properties', "$projectName/src/androidTest/assets" ]);
 $aarStaging->update('settings.gradle', sub {
     $_ = shift;
     s/\/\/#STAGING-REPOSITORY#/$repository/;
