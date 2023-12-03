@@ -49,21 +49,22 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        api-level: [16, 21, 30]
+        api-level: [21, 30]
         arch: [x86, x86_64]
         target: [default]
         include:
-          - api-level: 30
+          - api-level: 10
             arch: x86
-            target: google_apis
-          - api-level: 30
-            arch: x86_64
-            target: google_apis
-        exclude:
-          - api-level: 16
-            arch: x86_64
-          - api-level: 30
             target: default
+          - api-level: 16
+            arch: x86
+            target: default
+          - api-level: 19
+            arch: x86
+            target: default
+          - api-level: 34
+            arch: x86_64
+            target: google_apis
     steps:
       - uses: actions/checkout@v4
 
