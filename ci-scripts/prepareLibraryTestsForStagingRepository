@@ -66,11 +66,6 @@ $aarStaging->update("$projectName/build.gradle", sub {
     $_ = shift;
     s@//#UNCOMMENT-DURING-STAGING#@@;
     s@#STAGING-VERSION#@$version@;
-    return $_;
-});
-
-$aarStaging->update("$projectName/assetextractor/build.gradle", sub {
-    $_ = shift;
     s/(namespace = ["'].+)(["'])/${1}.${suffix}${2}/;
     return $_;
 });
