@@ -23,12 +23,12 @@ apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    namespace = "com.viliussutkus89.android.assetextractor"
+    compileSdk 34
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 30
+        targetSdkVersion 34
 
         versionCode 22
         versionName project.version
@@ -38,6 +38,16 @@ android {
         consumerProguardFiles 'proguard-rules.pro'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
     }
 }
 
@@ -56,25 +66,6 @@ dependencies {
     // The line above is used by the ci-scripts/prepareLibraryForStagingRepository
 }
 
-task sourceJar(type: Jar) {
-    archiveClassifier.set('sources')
-    into ("", { from android.sourceSets.main.java.srcDirs} )
-    into ("", { from file("../LICENSE")})
-}
-
-task javadoc(type: Javadoc) {
-    options.encoding = 'UTF-8'
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    classpath += configurations.javadocDependenciesToObtainClasspath
-    title = "${rootProject.name} ${project.version} API"
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    archiveClassifier.set('javadoc')
-    from javadoc.destinationDir
-}
-
 afterEvaluate {
     publishing {
         publications {
@@ -83,9 +74,6 @@ afterEvaluate {
 
                 artifactId rootProject.name
                 version = rootProject.version
-
-                artifact sourceJar
-                artifact javadocJar
 
                 pom {
                     name = rootProject.name
