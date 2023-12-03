@@ -1,7 +1,7 @@
 /*
  * AssetExtractor.java
  *
- * Copyright (C) 2019, 2020 Vilius Sutkus'89 <ViliusSutkus89@gmail.com>
+ * Copyright (C) 2019, 2020, 2023 Vilius Sutkus'89 <ViliusSutkus89@gmail.com>
  *
  * Implementation inspired by https://gist.github.com/tylerchesley/6198074
  *
@@ -79,21 +79,15 @@ public class AssetExtractor {
         return output;
       }
       try {
-        InputStream i = this.m_assetManager.open(source);
-        try {
-          OutputStream o = new FileOutputStream(output);
-          try {
+        try (InputStream i = this.m_assetManager.open(source)) {
+          try (OutputStream o = new FileOutputStream(output)) {
             int bufSize = 1024 * 512;
             byte[] buffer = new byte[bufSize];
             int haveRead;
             while (-1 != (haveRead = i.read(buffer))) {
               o.write(buffer, 0, haveRead);
             }
-          } finally {
-            o.close();
           }
-        } finally {
-          i.close();
         }
       } catch (IOException e) {
         Log.e(TAG, "Failed to extract asset: " + source);
