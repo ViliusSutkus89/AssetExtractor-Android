@@ -54,10 +54,6 @@ $aarStaging->update([ 'gradle', 'gradlew', 'build.gradle', 'gradle.properties', 
 $aarStaging->update('settings.gradle', sub {
     $_ = shift;
     s/\/\/#STAGING-REPOSITORY#/$repository/;
-    return $_;
-});
-$aarStaging->update('settings.gradle', sub {
-    $_ = shift;
     s/^(rootProject\.name\s*=\s*["'].+)(["'])$/${1}${suffix}${2}/;
     return $_;
 });
