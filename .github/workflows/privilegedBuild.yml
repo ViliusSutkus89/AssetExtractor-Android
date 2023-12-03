@@ -60,7 +60,7 @@ jobs:
 
       - run: tar -cvf maven-local.tar ~/.m2
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: maven-local
           path: maven-local.tar
@@ -138,7 +138,7 @@ jobs:
           # A branch is required for post release version increment commit
           ref: ${{ github.event.ref }}
 
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: maven-local
 
