@@ -153,13 +153,13 @@ jobs:
           artifacts: "maven-local.tar"
           bodyFile: "UpcomingReleaseNotes.md"
 
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Post release version increment to ${{ steps.version.outputs.unreleasedVersion }} (from ${{ steps.version.outputs.releasedVersion }})"
           file_pattern: ${{ steps.version.outputs.files }}
 
       - run: echo -n > UpcomingReleaseNotes.md
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Post release truncation of UpcomingReleaseNotes.md"
           file_pattern: UpcomingReleaseNotes.md
