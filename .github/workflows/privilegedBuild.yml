@@ -60,7 +60,7 @@ jobs:
 
       - run: tar -cvf maven-local.tar ~/.m2
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: maven-local
           path: maven-local.tar
